@@ -98,7 +98,7 @@ def launch_chrome(port=19222, user_data_dir="/tmp", url_query=""):
         "--enable-logging=stderr",
         "--export-tagged-pdf",
         "--force-color-profile=srgb",
-        "--headless",
+        "--headless=new",
         "--hide-scrollbars",
         "--log-level=2",
         "--metrics-recording-only",
@@ -126,6 +126,15 @@ def launch_chrome(port=19222, user_data_dir="/tmp", url_query=""):
         tmp_user_data_dir = tempfile.mkdtemp(prefix="chrome-puppeteer-proxy", dir="/tmp")
         chrome_run.append(f"--user-data-dir={tmp_user_data_dir}")
         logger.debug(f"No user-data-dir in query, using {tmp_user_data_dir}")
+
+    lang = os.getenv("CHROME_LANG")
+    if lang:
+        chrome_run.append(f"--lang={lang}")
+        chrome_run.append(f"--accept-lang={lang}")
+
+    user_agent = os.getenv("CHROME_USER_AGENT")
+    if user_agent:
+        chrome_run.append(f"--user-agent={user_agent}")
 
     # start_new_session not (makes the main one keep running?)
     # Shell has to be false or it wont process the args
