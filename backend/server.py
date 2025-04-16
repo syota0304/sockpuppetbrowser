@@ -98,7 +98,7 @@ def launch_chrome(port=19222, user_data_dir="/tmp", url_query=""):
         "--enable-logging=stderr",
         "--export-tagged-pdf",
         "--force-color-profile=srgb",
-        "--headless=new",
+        "--headless",
         "--hide-scrollbars",
         "--log-level=2",
         "--metrics-recording-only",
