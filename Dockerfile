@@ -11,6 +11,10 @@ RUN apk add --update --no-cache python3 python3-dev musl-dev linux-headers && ln
 RUN python3 -m ensurepip
 RUN pip3 install --upgrade pip
 RUN pip3 install --no-cache --upgrade pip setuptools virtualenv
+
+COPY clean-tmp.sh /usr/local/bin/clean-tmp.sh
+RUN chmod +x /usr/local/bin/clean-tmp.sh
+
 USER chrome
 
 #@todo Add some random collection of fonts and other stuff to blur the fingerprint a bit
@@ -32,4 +36,4 @@ ENV CHROME_BIN=/usr/bin/chromium-browser \
 #ENV CHROMIUM_FLAGS="--disable-software-rasterizer --disable-dev-shm-usage"
 
 RUN python3 -m venv . && . ./bin/activate && ./bin/pip3 install -r requirements.txt
-CMD . ./bin/activate . && python3 ./server.py
+CMD /usr/local/bin/clean-tmp.sh & . ./bin/activate . && python3 ./server.py
